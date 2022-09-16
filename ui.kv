@@ -1,0 +1,111 @@
+CustomScreenManager :
+    HomeScreen :
+    AddReminderScreen :
+    RingingScreen :
+
+<ListItemWithCheckbox>:
+    id: the_list_item
+    markup: True
+
+    LeftCheckbox:
+        id: check
+        on_release:
+            root.mark(check, the_list_item)
+
+    IconRightWidget:
+        icon: 'trash-can-outline'
+        theme_text_color: "Custom"
+        text_color: 1, 0, 0, 1
+        on_release:
+            root.delete_item(the_list_item)
+
+<HomeScreen>:
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+
+    ScrollView:
+        pos_hint: {'center_y': .5, 'center_x': .5}
+        size_hint: .9, .8
+
+        MDList:
+            id : container
+
+    MDFillRoundFlatButton:
+        text : "Pengingat"
+        pos_hint : {"center_x" : 0.5, "center_y" : .15}
+        on_release :
+            root.manager.current = "addreminderscreen"
+            root.manager.transition.direction = "left"
+
+<RingingScreen>:
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+
+        MDLabel:
+            text: "WAKTUNYA MAKAN"
+            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+
+<AddReminderScreen>:
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+
+    MDTopAppBar:
+        title: "Tambahkan Pengingat"
+        pos_hint : {"top" :1}
+
+    MDTextField:
+        id : title_add
+        size: 300, 60
+        size_hint: None, None
+        multiline : True
+        hint_text: "Title"
+        mode: "fill"
+        fill_color: 0, 0, 0, .4
+        pos_hint:{"center_x": .5, "center_y": .8}
+
+    MDTextField:
+        id : alarm_timed
+        size: 300, 30
+        size_hint: None, None
+        hint_text: "Time"
+        text: ""
+        mode: "fill"
+        fill_color: 0, 0, 0, .4
+        readonly : True
+        pos_hint:{"center_x": .5, "center_y": .7}
+
+    MDRaisedButton:
+        text: "Add Time"
+        pos_hint:{"center_x": .75, "center_y": .7}
+        theme_icon_color: "Custom"
+        on_release : root.time_picker()
+
+    MDTextField:
+        id : date_time
+        size: 300, 30
+        size_hint: None, None
+        hint_text: "Date"
+        text: ""
+        mode: "fill"
+        fill_color: 0, 0, 0, .4
+        readonly : True
+        pos_hint:{"center_x": .5, "center_y": .6}
+
+    MDRaisedButton:
+        text: "Add Dates"
+        pos_hint:{"center_x": .75, "center_y": .6}
+        theme_icon_color: "Custom"
+        on_release : root.date_picker()
+
+    MDRaisedButton:
+        text: "Simpan"
+        pos_hint: {"center_x": .75, "center_y": .2}
+        on_release : root.save_reminder()
+
+    MDRaisedButton:
+        id: back_button
+        text: "Kembali"
+        pos_hint: {"center_x": .25, "center_y": .2}
+        on_release :
+            root.manager.transition.direction = "right"
+            root.manager.current = "homescreen"
